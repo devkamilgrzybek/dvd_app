@@ -1,0 +1,12 @@
+
+dvdRental/target/classes/
+
+database/\.settings/
+
+database/\.project
+
+\.settings/
+
+\.project
+
+\.vscode
