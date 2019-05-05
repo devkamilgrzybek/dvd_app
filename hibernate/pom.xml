@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>pl</groupId>
+		<artifactId>app</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>hibernate</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>hibernate</name>
+	<description>plugins for sql and jpa generation</description>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<java.version>1.8</java.version>
+		<hibernate-tools-maven-plugin.version>5.4.2.Final</hibernate-tools-maven-plugin.version>
+
+		<database.driver>org.postgresql.Driver</database.driver>
+		<database.url>jdbc:postgresql://localhost:5432/dvd</database.url>
+		<database.username>devsoldier</database.username>
+		<database.password>admin</database.password>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-tools-maven-plugin</artifactId>
+				<version>${hibernate-tools-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>Display Help</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>help</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>Entity generation</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>hbm2java</goal>
+						</goals>
+						<configuration>
+							<!-- <templatePath>src/main/resources/templates/</templatePath> -->
+							<!-- Defaults: -->
+							<outputDirectory>../dvdRental/src/main/java/</outputDirectory>
+							<ejb3>true</ejb3>
+							<!--<jdk5>false</jdk5>-->
+							<skipMain>true</skipMain>
+						</configuration>
+					</execution>
+					<execution>
+						<id>Schema generation</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+						<configuration>
+							<!-- Defaults:-->
+							<!--Possible targetType: SCRIPT (default), STDOUT, DATABASE-->
+							<!--<targetTypes>-->
+							<!--<param>SCRIPT</param>-->
+							<!--<param>STDOUT</param>-->
+							<!--<param>DATABASE</param>-->
+							<!--</targetTypes>-->
+							<!-- <outputDirectory>${project.build.directory}/generated-resources/</outputDirectory> -->
+							<!--Possible schemaExportAction: CREATE (default), DROP, BOTH-->
+							<!--<schemaExportAction>CREATE</schemaExportAction>-->
+							<!-- <outputFileName>schema.ddl</outputFileName> -->
+							<!--<delimiter>;</delimiter>-->
+							<!--<haltOnError>true</haltOnError>-->
+							<!--<format>true</format>-->
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- <revengFile>src/main/hibernate/reveng.xml</revengFile> -->
+					<!-- Defaults:-->
+					<!-- <configurationfile>${project.basedir}/hibernate.cfg.xml</configurationfile> -->
+					<packageName>pl.dvdrental.repository</packageName>
+					<detectManyToMany>true</detectManyToMany>
+					<detectOneToOne>true</detectOneToOne>
+					<createCollectionForForeignKey>true</createCollectionForForeignKey>
+					<createManyToOneForForeignKey>true</createManyToOneForForeignKey>
+					<propertyFile>hibernate.properties</propertyFile>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>42.2.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<useIncrementalCompilation>false</useIncrementalCompilation>
+					<skipMain>true</skipMain>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

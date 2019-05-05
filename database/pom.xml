@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>pl</groupId>
+        <artifactId>app</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>database</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>database</name>
+    <description>plugins for running sql</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <java.version>1.8</java.version>
+        <hibernate-tools-maven-plugin.version>5.4.2.Final</hibernate-tools-maven-plugin.version>
+
+        <database.driver>org.postgresql.Driver</database.driver>
+        <database.url>jdbc:postgresql://localhost:5432/dvd</database.url>
+        <database.username>devsoldier</database.username>
+        <database.password>admin</database.password>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.2.5</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <driver>${database.driver}</driver>
+                    <url>${database.url}</url>
+                    <username>${database.username}</username>
+                    <password>${database.password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <delimiter>/</delimiter>
+                            <delimiterType>normal</delimiterType>
+                            <autocommit>true</autocommit>
+                            <srcFiles>
+                                <srcFile>sql/database.sql</srcFile>
+                                <srcFile>sql/tables/actor.sql</srcFile>
+                                <srcFile>sql/tables/category.sql</srcFile>
+                                <srcFile>sql/tables/customer.sql</srcFile>
+                                <srcFile>sql/tables/film.sql</srcFile>
+                                <srcFile>sql/tables/film_actor.sql</srcFile>
+                                <srcFile>sql/tables/film_category.sql</srcFile>
+                                <srcFile>sql/tables/payment.sql</srcFile>
+                                <srcFile>sql/tables/rental.sql</srcFile>
+                            </srcFiles>
+                            <!-- <fileset>
+								<basedir>sql/</basedir>
+								<includes>
+									<include>database.sql</include>
+								</includes>
+							</fileset> -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
